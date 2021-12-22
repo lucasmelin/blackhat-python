@@ -44,5 +44,7 @@ def main(host):
 
 
 if __name__ == "__main__":
-    HOST = "127.0.0.1"
+    # Get this address using ifconfig on Linux
+    # or ipconfig on Windows
+    HOST = "192.168.1.66"
     main(HOST)
