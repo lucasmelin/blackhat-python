@@ -35,7 +35,7 @@ class IP:
         try:
             self.protocol = self.protocol_map[self.protocol_num]
         except Exception as e:
-            print("%s No protocol for %s" % (e, self.protocol_num))
+            print(f"{e} No protocol for {self.protocol_num}")
             self.protocol = str(self.protocol_num)
 
 
