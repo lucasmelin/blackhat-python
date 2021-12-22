@@ -12,6 +12,7 @@ paramiko = "^2.8.1"
 opencv-python = "^4.5.4"
 requests = "^2.26.0"
 lxml = "^4.7.1"
+"github3.py" = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^21.12b0", allow-prereleases = true}
