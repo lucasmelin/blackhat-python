@@ -1,5 +1,6 @@
 # Requires scapy to be installed
 # pip install scapy
+# On Windows, also requires winpcap or npcap to be installed
 from scapy.all import sniff, TCP, IP
 
 
