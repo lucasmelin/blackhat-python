@@ -29,7 +29,7 @@ def handle_client(client_socket):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Receive data using TCP.",
-        epilog="Example usage: python tcp_server.py --ip 0.0.0.0 --port 9999",
+        epilog="Example usage: ./tcp_server.py --ip 0.0.0.0 --port 9999",
     )
     parser.add_argument("--ip", type=str, help="the bind IP")
     parser.add_argument("--port", type=int, help="the bind port")
