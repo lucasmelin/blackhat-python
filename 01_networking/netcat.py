@@ -1,6 +1,5 @@
 import argparse
 import socket
-import shlex
 import subprocess
 import sys
 import textwrap
@@ -12,7 +11,7 @@ def execute(cmd):
     cmd = cmd.strip()
     if not cmd:
         return
-    output = subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
+    output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     return output.decode()
 
 
@@ -57,11 +56,12 @@ class NetCat:
             sys.exit()
 
     def listen(self):
-        print("listening")
+        print(f"listening on {self.args.target}:{self.args.port}")
         self.socket.bind((self.args.target, self.args.port))
         self.socket.listen(5)
         while True:
-            client_socket, _ = self.socket.accept()
+            client_socket, addr = self.socket.accept()
+            print(f"[*] Accepted connection from {addr[0]}:{addr[1]}")
             client_thread = threading.Thread(target=self.handle, args=(client_socket,))
             client_thread.start()
 
@@ -90,7 +90,7 @@ class NetCat:
             cmd_buffer = b""
             while True:
                 try:
-                    client_socket.send(b" #> ")
+                    client_socket.send(b"#> ")
                     while "\n" not in cmd_buffer.decode():
                         cmd_buffer += client_socket.recv(64)
                     response = execute(cmd_buffer.decode())

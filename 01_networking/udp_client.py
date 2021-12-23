@@ -20,7 +20,7 @@ def main(host: str, port: int, raw_data: str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Send data using UDP.",
-        epilog="Example usage: ./udp_client.py --host www.google.com --port 80",
+        epilog="Example usage: python udp_client.py --host www.google.com --port 80",
     )
     parser.add_argument("--host", type=str, help="the host to connect to")
     parser.add_argument("--port", type=int, help="the port to connect to")
