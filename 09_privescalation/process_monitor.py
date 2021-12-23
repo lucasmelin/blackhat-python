@@ -11,6 +11,32 @@ import win32security
 import wmi
 
 
+def get_process_privileges(pid):
+    try:
+        # Get a handle to the process
+        hproc = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION, False, pid)
+
+        # Open the main process token
+        htok = win32security.OpenProcessToken(hproc, win32con.TOKEN_QUERY)
+
+        # Get the list of privileges enabled in this process
+        privs = win32security.GetTokenInformation(htok, win32security.TokenPrivileges)
+        privileges = ""
+        for priv_id, flags in privs:
+            # Check if the privilege is enabled
+            if (
+                flags
+                == win32security.SE_PRIVILEGE_ENABLED
+                | win32security.SE_PRIVILEGE_ENABLED_BY_DEFAULT
+            ):
+                # Lookup the human-readable privilege name
+                privileges += f"{win32security.LookupPrivilegeName(None, priv_id)}|"
+    except Exception:
+        privileges = "N/A"
+
+    return privileges
+
+
 def log_to_file(message):
     with open("process_monitor_log.csv", "a") as fd:
         fd.write(f"{message}\r\n")
@@ -30,7 +56,7 @@ def monitor():
             pid = new_process.ProcessId
             proc_owner = new_process.GetOwner()
 
-            privileges = "N/A"
+            privileges = get_process_privileges(pid)
             process_log_message = (
                 f"{cmdline} , {create_date} , {executable},"
                 f"{parent_pid} , {pid} , {proc_owner} , {privileges}"
